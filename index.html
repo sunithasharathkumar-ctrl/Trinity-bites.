@@ -126,9 +126,15 @@
                     </button>
                 </div>
 
-                <button class="md:hidden text-secondary">
-                    <i data-lucide="menu"></i>
-                </button>
+                <div class="flex items-center gap-4 md:hidden">
+                    <button onclick="toggleCart()" class="text-secondary relative p-1 mr-2">
+                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                        <span class="absolute -top-1 -right-2 bg-accent text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center cart-count border-2 border-[#F5E8D5]">0</span>
+                    </button>
+                    <button class="text-secondary">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
@@ -168,9 +174,9 @@
                     <div class="w-full h-[500px] glass rounded-[3rem] p-4 relative group">
                         <div class="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent rounded-[3rem]">
                         </div>
-                        <img src="https://img.sanishtech.com/u/841546a96ac0ae30a8a59c9a8c48c81b.png"
+                        <img src="https://i.pinimg.com/736x/cc/c8/2a/ccc82a1f3ec67ad7bbfdcf558100136a.jpg"
                             alt="Premium Bun Maska"
-                            class="w-full h-full object-contain rounded-[2.5rem] group-hover:scale-[1.02] transition-transform duration-700">
+                            class="w-full h-full object-cover rounded-[2.5rem] group-hover:scale-[1.02] transition-transform duration-700">
 
                         <!-- Floating Review Card -->
                         <div class="absolute -bottom-2 -left-2 glass px-4 py-4 rounded-2xl animate-bounce"
