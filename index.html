@@ -107,7 +107,10 @@
     <nav class="fixed w-full top-0 z-50 transition-all duration-300 py-4" id="navbar">
         <div class="container mx-auto px-6">
             <div class="glass rounded-full px-6 py-3 flex justify-between items-center">
-                <a href="#" class="font-heading text-2xl font-bold text-secondary tracking-tight">Trinity Bites</a>
+                <a href="#" class="flex items-center gap-3">
+                    <img src="logo.png" alt="Trinity Bites Logo" class="w-10 h-10 rounded-full object-cover">
+                    <span class="font-heading text-2xl font-bold text-secondary tracking-tight">Trinity Bites</span>
+                </a>
 
                 <div class="hidden md:flex space-x-8 items-center font-medium">
                     <a href="#home" class="hover:text-accent transition-colors">Home</a>
@@ -174,9 +177,9 @@
                     <div class="w-full h-[500px] glass rounded-[3rem] p-4 relative group">
                         <div class="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent rounded-[3rem]">
                         </div>
-                        <img src="https://i.pinimg.com/736x/cc/c8/2a/ccc82a1f3ec67ad7bbfdcf558100136a.jpg"
-                            alt="Premium Bun Maska"
-                            class="w-full h-full object-cover rounded-[2.5rem] group-hover:scale-[1.02] transition-transform duration-700">
+                        <img src="logo.png"
+                            alt="Trinity Bites Logo"
+                            class="w-full h-full object-contain rounded-[2.5rem] group-hover:scale-[1.02] transition-transform duration-700">
 
                         <!-- Floating Review Card -->
                         <div class="absolute -bottom-2 -left-2 glass px-4 py-4 rounded-2xl animate-bounce"
@@ -588,7 +591,6 @@
             const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
             // UPI Payment Link Details
-            // IMPORTANT: Replace '9110656160@ybl' with your actual UPI ID
             const upiId = "9110656160@ybl";
             const payeeName = "Trinity Bites";
             const transactionNote = `Order from Trinity Bites`;
@@ -614,62 +616,74 @@
             updateCartUI();
             toggleCart(); // Close cart modal
 
-            // Check if user is on a mobile device
+            // Generate App Specific Links
+            const gpayUrl = `tez://upi/pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+            const phonepeUrl = `phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+            const paytmUrl = `paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+            
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-            if (isMobile) {
-                // Redirect to UPI app on mobile
-                window.location.href = upiUrl;
-
-                // Fallback message just in case it fails
-                setTimeout(() => {
-                    alert(`Order ID: ${newOrder.id}\nTotal: ₹${totalAmount}\n\nIf your payment app didn't open, please complete the payment at the counter.`);
-                }, 1000);
-            } else {
-                // Show custom QR Code Modal for desktop users
-                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-
-                const qrModalHtml = `
-                    <div id="qr-modal" class="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center backdrop-blur-sm transition-opacity opacity-0">
-                        <div class="bg-[#F5E8D5] w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center transform scale-95 transition-transform" id="qr-content">
-                            <div class="w-16 h-16 bg-green-500/20 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            </div>
-                            <h2 class="font-heading text-2xl font-bold text-secondary mb-2">Order Placed!</h2>
-                            <p class="text-secondary/70 mb-4">Order ID: <span class="font-bold">${newOrder.id}</span></p>
-                            
-                            <div class="bg-white p-4 rounded-2xl shadow-md inline-block mb-4">
-                                <img src="${qrUrl}" alt="UPI QR Code" class="w-48 h-48 mx-auto">
-                            </div>
-                            
-                            <p class="text-xl font-bold text-secondary mb-2">Total Amount: <span class="text-accent">₹${totalAmount}</span></p>
-                            <p class="text-sm text-secondary/70 mb-6">Scan this QR code with any UPI app (PhonePe, GPay, Paytm) on your phone to complete your payment.</p>
-                            
-                            <button onclick="closeQrModal()" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-dark transition-colors shadow-lg flex justify-center items-center gap-2">
-                                Done
-                            </button>
-                        </div>
+            let paymentButtonsHtml = '';
+            if(isMobile) {
+                paymentButtonsHtml = `
+                    <p class="text-sm text-secondary/70 mb-3 font-semibold">Pay directly using apps:</p>
+                    <div class="grid grid-cols-3 gap-3 mb-6">
+                        <a href="${gpayUrl}" class="flex flex-col items-center justify-center bg-white p-3 rounded-xl shadow-sm border border-secondary/10 hover:border-accent transition-colors">
+                            <span class="text-xs font-bold text-secondary">GPay</span>
+                        </a>
+                        <a href="${phonepeUrl}" class="flex flex-col items-center justify-center bg-white p-3 rounded-xl shadow-sm border border-secondary/10 hover:border-accent transition-colors">
+                            <span class="text-xs font-bold text-secondary">PhonePe</span>
+                        </a>
+                        <a href="${paytmUrl}" class="flex flex-col items-center justify-center bg-white p-3 rounded-xl shadow-sm border border-secondary/10 hover:border-accent transition-colors">
+                            <span class="text-xs font-bold text-secondary">Paytm</span>
+                        </a>
                     </div>
+                    <div class="text-xs text-secondary/50 mb-4 font-bold uppercase tracking-wider">Or scan the QR code</div>
                 `;
-
-                document.body.insertAdjacentHTML('beforeend', qrModalHtml);
-
-                // Animate entrance
-                setTimeout(() => {
-                    document.getElementById('qr-modal').classList.remove('opacity-0');
-                    document.getElementById('qr-content').classList.remove('scale-95');
-                }, 10);
-
-                // Add close function to global scope temporarily
-                window.closeQrModal = function () {
-                    document.getElementById('qr-modal').classList.add('opacity-0');
-                    document.getElementById('qr-content').classList.add('scale-95');
-                    setTimeout(() => {
-                        document.getElementById('qr-modal').remove();
-                        delete window.closeQrModal;
-                    }, 300);
-                };
+            } else {
+                paymentButtonsHtml = `<p class="text-sm text-secondary/70 mb-6">Scan this QR code with any UPI app (PhonePe, GPay, Paytm) on your phone to complete your payment.</p>`;
             }
+
+            const qrModalHtml = `
+                <div id="qr-modal" class="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center backdrop-blur-sm transition-opacity opacity-0 p-4">
+                    <div class="bg-[#F5E8D5] w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center transform scale-95 transition-transform max-h-[90vh] overflow-y-auto" id="qr-content">
+                        <div class="w-16 h-16 bg-green-500/20 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h2 class="font-heading text-2xl font-bold text-secondary mb-2">Order Placed!</h2>
+                        <p class="text-secondary/70 mb-4">Order ID: <span class="font-bold">${newOrder.id}</span></p>
+                        
+                        <p class="text-xl font-bold text-secondary mb-4">Total Amount: <span class="text-accent">₹${totalAmount}</span></p>
+                        
+                        ${paymentButtonsHtml}
+                        
+                        <div class="bg-white p-4 rounded-2xl shadow-md inline-block mb-6">
+                            <img src="${qrUrl}" alt="UPI QR Code" class="w-40 h-40 mx-auto">
+                        </div>
+                        
+                        <button onclick="closeQrModal()" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-dark transition-colors shadow-lg flex justify-center items-center gap-2">
+                            Done
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', qrModalHtml);
+
+            setTimeout(() => {
+                document.getElementById('qr-modal').classList.remove('opacity-0');
+                document.getElementById('qr-content').classList.remove('scale-95');
+            }, 10);
+
+            window.closeQrModal = function () {
+                document.getElementById('qr-modal').classList.add('opacity-0');
+                document.getElementById('qr-content').classList.add('scale-95');
+                setTimeout(() => {
+                    document.getElementById('qr-modal').remove();
+                    delete window.closeQrModal;
+                }, 300);
+            };
         }
 
         // Initial call
