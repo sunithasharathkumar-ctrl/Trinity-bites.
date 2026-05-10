@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trinity Bites | Premium Bun Maska Experience</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#F5E8D5',
+                        secondary: '#412408',
+                        accent: '#C98A4A',
+                        light: '#FFF6EA',
+                        dark: '#2B1605'
+                    },
+                    fontFamily: {
+                        sans: ['Satoshi', 'Inter', 'sans-serif'],
+                        heading: ['Grifter', 'Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            background-color: #F5E8D5;
+            color: #412408;
+            font-family: 'Satoshi', sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .font-heading {
+            font-family: 'Outfit', sans-serif;
+            /* Fallback for Grifter */
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(255, 246, 234, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(65, 36, 8, 0.05);
+        }
+
+        .glass-dark {
+            background: rgba(65, 36, 8, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(65, 36, 8, 0.25);
+        }
+
+        /* Custom Blob for Hero */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+
+<body class="antialiased relative">
+
+    <!-- Decorative Background Blobs -->
+    <div class="blob bg-accent/30 w-96 h-96 rounded-full top-0 left-0"></div>
+    <div class="blob bg-secondary/20 w-[500px] h-[500px] rounded-full top-40 right-[-100px]"></div>
+
+    <!-- 1. STICKY NAVBAR -->
+    <nav class="fixed w-full top-0 z-50 transition-all duration-300 py-4" id="navbar">
+        <div class="container mx-auto px-6">
+            <div class="glass rounded-full px-6 py-3 flex justify-between items-center">
+                <a href="#" class="font-heading text-2xl font-bold text-secondary tracking-tight">Trinity Bites</a>
+
+                <div class="hidden md:flex space-x-8 items-center font-medium">
+                    <a href="#home" class="hover:text-accent transition-colors">Home</a>
+                    <a href="#menu" class="hover:text-accent transition-colors">Menu</a>
+                    <a href="#about" class="hover:text-accent transition-colors">About</a>
+                    <a href="#gallery" class="hover:text-accent transition-colors">Gallery</a>
+                    <a href="#contact" class="hover:text-accent transition-colors">Contact</a>
+                    <a href="dashboard.html"
+                        class="text-accent hover:text-secondary transition-colors text-sm font-bold">Admin</a>
+                </div>
+
+                <div class="hidden md:block">
+                    <button onclick="toggleCart()"
+                        class="bg-secondary text-white px-6 py-2.5 rounded-full hover:bg-dark hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 font-medium flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-4 h-4"></i> Cart (<span class="cart-count">0</span>)
+                    </button>
+                </div>
+
+                <button class="md:hidden text-secondary">
+                    <i data-lucide="menu"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO SECTION -->
+    <section id="home" class="min-h-screen flex items-center pt-24 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8 fade-in-up">
+                    <div
+                        class="inline-block px-4 py-1.5 rounded-full glass border-accent/30 text-accent font-semibold text-sm">
+                        ✨ Welcome to Trinity Bites
+                    </div>
+                    <h1 class="font-heading text-5xl md:text-7xl font-extrabold leading-tight text-secondary">
+                        Premium<br>
+                        <span class="text-accent">Bun Maska</span><br>
+                        Experience
+                    </h1>
+                    <p class="text-lg md:text-xl text-secondary/80 max-w-lg leading-relaxed">
+                        Freshly baked happiness served with rich flavors. Discover the perfect blend of tradition and
+                        modern café luxury.
+                    </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})"
+                            class="bg-secondary text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-dark hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            Order Now
+                        </button>
+                        <a href="#menu"
+                            class="glass px-8 py-4 rounded-full text-lg font-medium text-secondary hover:bg-white/40 transition-all duration-300 flex items-center gap-2">
+                            Explore Menu <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative fade-in-up" style="transition-delay: 0.2s;">
+                    <!-- Placeholder for Premium Bun Image -->
+                    <div class="w-full h-[500px] glass rounded-[3rem] p-4 relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent rounded-[3rem]">
+                        </div>
+                        <img src="https://img.sanishtech.com/u/841546a96ac0ae30a8a59c9a8c48c81b.png"
+                            alt="Premium Bun Maska"
+                            class="w-full h-full object-contain rounded-[2.5rem] group-hover:scale-[1.02] transition-transform duration-700">
+
+                        <!-- Floating Review Card -->
+                        <div class="absolute -bottom-2 -left-2 glass px-4 py-4 rounded-2xl animate-bounce"
+                            style="animation-duration: 4s;">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-white font-bold">
+                                    4.9</div>
+                                <div>
+                                    <div class="flex text-yellow-500">
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                    </div>
+                                    <div class="text-sm font-semibold text-secondary">Customer Rating</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. FEATURED MENU SECTION -->
+    <section id="menu" class="py-24 relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-2xl mx-auto mb-16 fade-in-up">
+                <h2 class="font-heading text-4xl md:text-5xl font-bold text-secondary mb-4">Our Signature Flavors</h2>
+                <p class="text-secondary/70 text-lg">Indulge in our carefully crafted varieties of Bun Maska.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <!-- Product 1 -->
+                <div class="product-card glass rounded-3xl p-4 flex flex-col fade-in-up"
+                    style="transition-delay: 0.1s;">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-white/50">
+                        <img src="https://i.pinimg.com/736x/cc/c8/2a/ccc82a1f3ec67ad7bbfdcf558100136a.jpg"
+                            alt="Bun Maska" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-secondary mb-1">Bun Maska</h3>
+                    <p class="text-accent font-bold text-lg mb-4">₹25</p>
+                    <div class="mt-auto h-12 flex items-center justify-between rounded-xl overflow-hidden action-container bg-secondary/10 text-secondary transition-colors duration-300" data-name="Bun Maska" data-price="25">
+                        <button onclick="updateCartItem('Bun Maska', 25, -1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-2xl pb-1">-</button>
+                        <span class="font-bold flex-1 text-center qty-display">Add</span>
+                        <button onclick="updateCartItem('Bun Maska', 25, 1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-xl">+</button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card glass rounded-3xl p-4 flex flex-col fade-in-up"
+                    style="transition-delay: 0.2s;">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-white/50">
+                        <img src="https://i.pinimg.com/736x/00/86/e0/0086e0124128278ef0d05a5f52247b58.jpg"
+                            alt="Chocolate Bun" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-secondary mb-1">Chocolate Bun</h3>
+                    <p class="text-accent font-bold text-lg mb-4">₹35</p>
+                    <div class="mt-auto h-12 flex items-center justify-between rounded-xl overflow-hidden action-container bg-secondary/10 text-secondary transition-colors duration-300" data-name="Chocolate Bun" data-price="35">
+                        <button onclick="updateCartItem('Chocolate Bun', 35, -1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-2xl pb-1">-</button>
+                        <span class="font-bold flex-1 text-center qty-display">Add</span>
+                        <button onclick="updateCartItem('Chocolate Bun', 35, 1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-xl">+</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card glass rounded-3xl p-4 flex flex-col fade-in-up"
+                    style="transition-delay: 0.3s;">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-white/50">
+                        <img src="https://i.pinimg.com/736x/78/a0/54/78a05431d7121a3934de6cdc7813e555.jpg"
+                            alt="Strawberry Bun" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-secondary mb-1">Strawberry Bun</h3>
+                    <p class="text-accent font-bold text-lg mb-4">₹35</p>
+                    <div class="mt-auto h-12 flex items-center justify-between rounded-xl overflow-hidden action-container bg-secondary/10 text-secondary transition-colors duration-300" data-name="Strawberry Bun" data-price="35">
+                        <button onclick="updateCartItem('Strawberry Bun', 35, -1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-2xl pb-1">-</button>
+                        <span class="font-bold flex-1 text-center qty-display">Add</span>
+                        <button onclick="updateCartItem('Strawberry Bun', 35, 1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-xl">+</button>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card glass rounded-3xl p-4 flex flex-col fade-in-up"
+                    style="transition-delay: 0.4s;">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-white/50">
+                        <img src="https://i.pinimg.com/1200x/1c/af/fb/1caffbb4ce105dc9a06eacf7353e7e8c.jpg"
+                            alt="Blueberry Bun" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-secondary mb-1">Blueberry Bun</h3>
+                    <p class="text-accent font-bold text-lg mb-4">₹40</p>
+                    <div class="mt-auto h-12 flex items-center justify-between rounded-xl overflow-hidden action-container bg-secondary/10 text-secondary transition-colors duration-300" data-name="Blueberry Bun" data-price="40">
+                        <button onclick="updateCartItem('Blueberry Bun', 40, -1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-2xl pb-1">-</button>
+                        <span class="font-bold flex-1 text-center qty-display">Add</span>
+                        <button onclick="updateCartItem('Blueberry Bun', 40, 1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-xl">+</button>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card glass rounded-3xl p-4 flex flex-col fade-in-up"
+                    style="transition-delay: 0.5s;">
+                    <div class="h-48 rounded-2xl overflow-hidden mb-4 bg-white/50 relative">
+                        <div
+                            class="absolute top-2 right-2 bg-accent text-white text-xs font-bold px-2 py-1 rounded-full z-10">
+                            Best Seller</div>
+                        <img src="https://i.pinimg.com/1200x/4c/fb/d1/4cfbd1ff49d3e5f7b3ff5a584bb81358.jpg"
+                            alt="Caramel Bun" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="font-heading text-xl font-bold text-secondary mb-1">Caramel Bun</h3>
+                    <p class="text-accent font-bold text-lg mb-4">₹40</p>
+                    <div class="mt-auto h-12 flex items-center justify-between rounded-xl overflow-hidden action-container bg-secondary/10 text-secondary transition-colors duration-300" data-name="Caramel Bun" data-price="40">
+                        <button onclick="updateCartItem('Caramel Bun', 40, -1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-2xl pb-1">-</button>
+                        <span class="font-bold flex-1 text-center qty-display">Add</span>
+                        <button onclick="updateCartItem('Caramel Bun', 40, 1)" class="w-12 h-full flex items-center justify-center hover:bg-secondary hover:text-white transition-colors font-bold text-xl">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ABOUT SECTION -->
+    <section id="about" class="py-24 bg-light/50">
+        <div class="container mx-auto px-6">
+            <div class="glass rounded-[3rem] p-8 md:p-16">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1 h-[400px] rounded-3xl overflow-hidden fade-in-up">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                            alt="Cafe Interior" class="w-full h-full object-cover">
+                    </div>
+                    <div class="order-1 md:order-2 space-y-6 fade-in-up" style="transition-delay: 0.2s;">
+                        <h2 class="font-heading text-4xl md:text-5xl font-bold text-secondary">The Trinity Experience
+                        </h2>
+                        <p class="text-xl text-secondary/80 leading-relaxed italic">
+                            “At Trinity Bites, we craft delicious Bun Maska varieties with premium ingredients, rich
+                            flavors, and a modern café experience.”
+                        </p>
+                        <p class="text-secondary/70">
+                            Our journey began with a simple idea: elevate the classic Bun Maska to a luxury experience
+                            without losing its soul. Every bun is freshly baked, every spread is meticulously prepared.
+                        </p>
+                        <button
+                            class="border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-8 py-3 rounded-full font-medium transition-all duration-300">
+                            Read Our Story
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. CONTACT & FOOTER -->
+    <footer id="contact" class="bg-secondary text-light pt-24 pb-8 relative overflow-hidden mt-24">
+        <div
+            class="absolute top-0 left-0 w-full overflow-hidden leading-none rotate-180 transform -translate-y-full z-10">
+            <svg class="relative block w-[calc(100%+1.3px)] h-[50px] md:h-[100px]" data-name="Layer 1"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                    fill="#F5E8D5"></path>
+            </svg>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-20">
+            <div class="grid md:grid-cols-2 gap-16 mb-16 border-b border-white/10 pb-16">
+
+                <!-- Contact Form -->
+                <div class="glass-dark p-8 rounded-3xl fade-in-up">
+                    <h3 class="font-heading text-3xl font-bold mb-6">Get in Touch</h3>
+                    <form class="space-y-4">
+                        <div>
+                            <input type="text" placeholder="Your Name"
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all">
+                        </div>
+                        <div>
+                            <input type="tel" placeholder="Phone Number"
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all">
+                        </div>
+                        <div>
+                            <textarea placeholder="Your Message" rows="4"
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-all"></textarea>
+                        </div>
+                        <button type="button"
+                            class="w-full bg-accent text-white font-bold py-4 rounded-xl hover:bg-opacity-90 transition-all shadow-lg hover:shadow-accent/30">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Info & Map -->
+                <div class="space-y-8 fade-in-up" style="transition-delay: 0.2s;">
+                    <div>
+                        <h2 class="font-heading text-5xl font-bold mb-6">Trinity Bites</h2>
+                        <div class="space-y-4 text-light/80">
+                            <p class="flex items-center gap-3"><i data-lucide="map-pin" class="text-accent"></i>
+                                Near Indian Statistical Institute, Bengaluru Center, Back Gate of Banglore University,
+                            </p>
+                            <p class="flex items-center gap-3"><i data-lucide="phone" class="text-accent"></i> +91
+                                8867937753
+                            <p class="flex items-center gap-3"><i data-lucide="clock" class="text-accent"></i> Mon-Sun:
+                                10:00 AM - 10:00 PM</p>
+                        </div>
+                    </div>
+
+                    <!-- Google Map -->
+                    <div class="w-full h-48 bg-white/10 rounded-2xl overflow-hidden relative group">
+                        <!-- IMPORTANT: Replace the src="..." link below with your own Google Maps Embed link -->
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.614837652443!2d77.50052207436553!3d12.932458815736638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3eee2f3fd2a1%3A0x82c13760d7667095!2sIndian%20Statistical%20Institute%2C%20Bengaluru%20Centre!5e0!3m2!1sen!2sin!4v1778321408818!5m2!1sen!2sin"
+                            width="100%" height="100%" style="border:0; filter: invert(90%) hue-rotate(180deg);"
+                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                            class="transition-transform duration-500 group-hover:scale-105">
+                        </iframe>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <a href="#"
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent transition-colors"><i
+                                data-lucide="instagram"></i></a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent transition-colors"><i
+                                data-lucide="facebook"></i></a>
+                        <a href="#"
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent transition-colors"><i
+                                data-lucide="twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center text-light/50 text-sm">
+                <p>&copy; 2026 Trinity Bites. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp -->
+    <a href="#"
+        class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center text-white shadow-xl hover:scale-110 transition-transform z-50">
+        <i data-lucide="message-circle" class="w-8 h-8"></i>
+    </a>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal"
+        class="fixed inset-0 bg-black/50 z-[100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity opacity-0">
+        <div class="bg-[#F5E8D5] w-full max-w-md rounded-3xl p-6 shadow-2xl transform scale-95 transition-transform"
+            id="cart-content">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="font-heading text-2xl font-bold text-secondary">Your Cart</h2>
+                <button onclick="toggleCart()" class="text-secondary hover:text-accent"><i data-lucide="x"
+                        class="w-6 h-6"></i></button>
+            </div>
+            <div id="cart-items" class="max-h-64 overflow-y-auto space-y-4 mb-6">
+                <!-- Cart items will be injected here -->
+            </div>
+            <div class="border-t border-secondary/20 pt-4 mb-6">
+                <div class="flex justify-between items-center font-bold text-xl text-secondary">
+                    <span>Total:</span>
+                    <span id="cart-total">₹0</span>
+                </div>
+            </div>
+            <button onclick="checkout()"
+                class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-dark transition-colors shadow-lg">
+                Checkout & Place Order
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Scroll Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+
+        // Sticky Navbar effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('py-2');
+                nav.classList.remove('py-4');
+            } else {
+                nav.classList.add('py-4');
+                nav.classList.remove('py-2');
+            }
+        });
+
+        // Cart Logic
+        let cart = [];
+
+        function updateCartItem(name, price, change) {
+            const itemIndex = cart.findIndex(item => item.name === name);
+            
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += change;
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+            } else if (change > 0) {
+                cart.push({ name, price, quantity: change });
+                
+                // Show toast notification for new item
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-24 right-6 bg-green-500 text-white px-6 py-3 rounded-xl shadow-xl z-50 transition-all transform translate-y-0 opacity-100';
+                toast.innerText = `${name} added to cart!`;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.classList.add('translate-y-4', 'opacity-0');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            }
+            updateCartUI();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            const content = document.getElementById('cart-content');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    content.classList.remove('scale-95');
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                content.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('hidden'), 300);
+            }
+        }
+
+        function updateCartUI() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            const cartCountElements = document.querySelectorAll('.cart-count');
+
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                count += item.quantity;
+                cartItemsContainer.innerHTML += `
+                    <div class="flex justify-between items-center bg-white/40 p-3 rounded-xl mb-3">
+                        <div>
+                            <h4 class="font-bold text-secondary">${item.name}</h4>
+                            <p class="text-sm text-secondary/70">₹${item.price} x ${item.quantity}</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="updateCartItem('${item.name}', ${item.price}, -1)" class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors font-bold">-</button>
+                            <span class="font-bold">${item.quantity}</span>
+                            <button onclick="updateCartItem('${item.name}', ${item.price}, 1)" class="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center text-secondary hover:bg-secondary hover:text-white transition-colors font-bold">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            cartTotalElement.innerText = `₹${total}`;
+            cartCountElements.forEach(el => el.innerText = count);
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-secondary/50 text-center py-4 font-medium">Your cart is empty.</p>';
+            }
+
+            // Sync product cards UI
+            document.querySelectorAll('.action-container').forEach(container => {
+                const name = container.dataset.name;
+                const item = cart.find(i => i.name === name);
+                const qtyDisplay = container.querySelector('.qty-display');
+                
+                if (item && item.quantity > 0) {
+                    qtyDisplay.innerText = item.quantity;
+                    container.classList.remove('bg-secondary/10', 'text-secondary');
+                    container.classList.add('bg-secondary', 'text-white');
+                    container.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('hover:bg-secondary');
+                        btn.classList.add('hover:bg-dark');
+                    });
+                } else {
+                    qtyDisplay.innerText = 'Add';
+                    container.classList.remove('bg-secondary', 'text-white');
+                    container.classList.add('bg-secondary/10', 'text-secondary');
+                    container.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('hover:bg-dark');
+                        btn.classList.add('hover:bg-secondary');
+                    });
+                }
+            });
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Please add items to your cart first!");
+                return;
+            }
+
+            const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // UPI Payment Link Details
+            // IMPORTANT: Replace '9110656160@ybl' with your actual UPI ID
+            const upiId = "9110656160@ybl";
+            const payeeName = "Trinity Bites";
+            const transactionNote = `Order from Trinity Bites`;
+
+            // Generate UPI Deep Link
+            const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${totalAmount}&cu=INR&tn=${encodeURIComponent(transactionNote)}`;
+
+            // Save to localStorage for dashboard
+            const newOrder = {
+                id: '#TRB-' + Math.floor(Math.random() * 1000).toString().padStart(3, '0'),
+                customer: 'Online Guest',
+                items: cart.map(i => `${i.quantity}x ${i.name}`).join(', '),
+                amount: totalAmount,
+                status: 'Pending Payment',
+                date: new Date().toISOString()
+            };
+
+            let orders = JSON.parse(localStorage.getItem('trinity_orders') || '[]');
+            orders.unshift(newOrder);
+            localStorage.setItem('trinity_orders', JSON.stringify(orders));
+
+            cart = [];
+            updateCartUI();
+            toggleCart(); // Close cart modal
+
+            // Check if user is on a mobile device
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // Redirect to UPI app on mobile
+                window.location.href = upiUrl;
+
+                // Fallback message just in case it fails
+                setTimeout(() => {
+                    alert(`Order ID: ${newOrder.id}\nTotal: ₹${totalAmount}\n\nIf your payment app didn't open, please complete the payment at the counter.`);
+                }, 1000);
+            } else {
+                // Show custom QR Code Modal for desktop users
+                const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+
+                const qrModalHtml = `
+                    <div id="qr-modal" class="fixed inset-0 bg-black/50 z-[200] flex items-center justify-center backdrop-blur-sm transition-opacity opacity-0">
+                        <div class="bg-[#F5E8D5] w-full max-w-sm rounded-3xl p-6 shadow-2xl text-center transform scale-95 transition-transform" id="qr-content">
+                            <div class="w-16 h-16 bg-green-500/20 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <h2 class="font-heading text-2xl font-bold text-secondary mb-2">Order Placed!</h2>
+                            <p class="text-secondary/70 mb-4">Order ID: <span class="font-bold">${newOrder.id}</span></p>
+                            
+                            <div class="bg-white p-4 rounded-2xl shadow-md inline-block mb-4">
+                                <img src="${qrUrl}" alt="UPI QR Code" class="w-48 h-48 mx-auto">
+                            </div>
+                            
+                            <p class="text-xl font-bold text-secondary mb-2">Total Amount: <span class="text-accent">₹${totalAmount}</span></p>
+                            <p class="text-sm text-secondary/70 mb-6">Scan this QR code with any UPI app (PhonePe, GPay, Paytm) on your phone to complete your payment.</p>
+                            
+                            <button onclick="closeQrModal()" class="w-full bg-secondary text-white py-4 rounded-xl font-bold hover:bg-dark transition-colors shadow-lg flex justify-center items-center gap-2">
+                                Done
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                document.body.insertAdjacentHTML('beforeend', qrModalHtml);
+
+                // Animate entrance
+                setTimeout(() => {
+                    document.getElementById('qr-modal').classList.remove('opacity-0');
+                    document.getElementById('qr-content').classList.remove('scale-95');
+                }, 10);
+
+                // Add close function to global scope temporarily
+                window.closeQrModal = function () {
+                    document.getElementById('qr-modal').classList.add('opacity-0');
+                    document.getElementById('qr-content').classList.add('scale-95');
+                    setTimeout(() => {
+                        document.getElementById('qr-modal').remove();
+                        delete window.closeQrModal;
+                    }, 300);
+                };
+            }
+        }
+
+        // Initial call
+        updateCartUI();
+    </script>
+</body>
+
+</html>

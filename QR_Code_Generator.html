@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator for Client</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Website QR Generator</h1>
+        <p class="text-gray-500 mb-6 text-sm">Paste your public website link here to generate a scannable QR code for your client.</p>
+
+        <input type="url" id="linkInput" placeholder="e.g., https://trinity-bites.netlify.app" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 transition-all">
+
+        <button onclick="generateQR()" 
+            class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition-colors mb-8 shadow-md">
+            Generate QR Code
+        </button>
+
+        <div id="qrContainer" class="hidden flex flex-col items-center">
+            <div class="p-4 border-2 border-dashed border-gray-200 rounded-xl mb-4 bg-gray-50">
+                <img id="qrImage" src="" alt="QR Code" class="w-48 h-48">
+            </div>
+            <p class="text-sm text-gray-500 mb-4">Right-click the image to save or copy it.</p>
+        </div>
+    </div>
+
+    <script>
+        function generateQR() {
+            const link = document.getElementById('linkInput').value.trim();
+            if (!link) {
+                alert("Please enter a valid website link first!");
+                return;
+            }
+
+            const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${encodeURIComponent(link)}`;
+            
+            document.getElementById('qrImage').src = qrUrl;
+            document.getElementById('qrContainer').classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>
